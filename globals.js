@@ -27,3 +27,16 @@ var autoClean = 0;
 var infoWindow;
 
 var ownLocator;
+var ownSwitchIp;
+var ownSwitchType;
+
+var colorSet = {};
+
+// "all_geometry_color": "#1a4d2e",
+// "all_labels_color": "#4acd4c",
+// "landscape_geometry_color": "#00ff3e",
+// "poi_geometry_color": "#005727",
+// "poi_park_geometry_color": "#003f02",
+// "road_all_color": "#005f20",
+// "water_all_color": "#000000",
+// "water_fill_color": "#4acd4c"

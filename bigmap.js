@@ -6,11 +6,60 @@ function biginitialize() {
 	biglng1 = 8;
 
 	let ownLocatorFromUrl = getURLParameter("ownLocator");
+	let agc = getURLParameter("agc");
+	let alc = getURLParameter("alc");
+	let lgc = getURLParameter("lgc");
+	let pgc = getURLParameter("pgc");
+	let ppc = getURLParameter("ppc");
+	let rac = getURLParameter("rac");
+	let wac = getURLParameter("wac");
+	let wfc = getURLParameter("wfc");
+	let mapDefault = getURLParameter("md");
+
+		// "all_geometry_color": "#1a4d2e",
+	// "all_geometry_color": "#1a4d2e",
+	// "all_labels_color": "#4acd4c",
+	// "landscape_geometry_color": "#00ff3e",
+	// "poi_geometry_color": "#005727",
+	// "poi_park_geometry_color": "#003f02",
+	// "road_all_color": "#005f20",
+	// "water_all_color": "#000000",
+	// "water_fill_color": "#4acd4c"
+
+	let ownColorSet = {
+		"agc": "#1a4d2e",
+		"alc": "#4acd4c",
+		"lgc": "#00ff3e",
+		"pgc": "#005727",
+		"ppc": "#003f02",
+		"rac": "#005f20",
+		"wac": "#000000",
+		"wfc": "#4acd4c"
+	};
+	
+	if(agc != null)
+		ownColorSet.agc = "#"+agc; // country borders
+	if(alc != null)		
+		ownColorSet.alc = "#"+alc; // labels of countries
+	if(lgc != null)		
+		ownColorSet.lgc = "#"+lgc; // background of countries aka main color
+	if(pgc != null)		
+		ownColorSet.pgc = "#"+pgc; // background of pio
+	if(ppc != null)		
+		ownColorSet.ppc = "#"+ppc; // background of parks
+	if(rac != null)		
+		ownColorSet.rac = "#"+rac; // roads
+	if(wac != null)		
+		ownColorSet.wac = "#"+wac; // water
+	if(wfc != null)		
+		ownColorSet.wfc = "#"+wfc; // water fill color
 
 	if(ownLocatorFromUrl == null)
 		ownLocator = window.prompt("Enter your locator","JN59IC")
 	else
 		ownLocator = ownLocatorFromUrl;
+
+	colorSet = ownColorSet;
 
 	let x = GHelper.GetLatLonByMaidenLocator(ownLocator);
 
@@ -20,7 +69,7 @@ function biginitialize() {
 		center: bigmyLatlng,
 		zoom: 3,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		styles: myaray
+		styles: mapDefault == null ? "" : getMapStyleArray()
 	};
 
 	bigmap = new google.maps.Map(document.getElementById('bigmap-canvas'), mapOptions);
@@ -204,116 +253,6 @@ for(let a = 0; a < icon_def.length; a++)
 	}
 }
 
-// icons["center"] = {
-// 	url: "images/center.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["6"] = {
-// 	url: "images/6.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["10"] = {
-// 	url: "images/10.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["12"] = {
-// 	url: "images/12.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["15"] = {
-// 	url: "images/15.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["17"] = {
-// 	url: "images/17.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["20"] = {
-// 	url: "images/20.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["30"] = {
-// 	url: "images/30.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["40"] = {
-// 	url: "images/40.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["80"] = {
-// 	url: "images/80.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
-// icons["160"] = {
-// 	url: "images/160.png",
-// 	// This marker is 20 pixels wide by 32 pixels tall.
-// 	size: new google.maps.Size(12, 20),
-// 	// The origin for this image is 0,0.
-// 	origin: new google.maps.Point(0, 0),
-// 	// The anchor for this image is the base of the flagpole at 0,32.
-// 	anchor: new google.maps.Point(6, 20)
-// };
-
 // Sets the map on all markers in the array.
 function setAllMap(bigmap) {
 	for (var i = 0; i < markers.length; i++) {
@@ -354,62 +293,17 @@ function getMarkerCount()
 	return markers.length;	
 }
 
-/*
 
-"featureType": "all",
-		"elementType": "labels",
-		"stylers": [
-			{
-				"color": "#ffffff"
-			},
-			{
-				"gamma": "6.77"
-			},
-			{
-				"lightness": "49"
-			}
-		]
+function getMapStyleArray()
+{
 
-		"featureType": "landscape",
-		"elementType": "geometry",
-		"stylers": [
-			{
-				"lightness": 30
-			},
-			{
-				"saturation": 30
-			},
-			{
-				"color": "#00ff3e"
-			}
-
-		"featureType": "water",
-		"elementType": "labels.text.fill",
-		"stylers": [
-			{
-				"color": "#0000dd"
-			},
-			{
-				"lightness": "28"
-			}
-		]
-
-		"featureType": "all",
-		"elementType": "geometry",
-		"stylers": [
-			{
-				"color": "#000000"
-			}
-		]
-*/
-
-var myaray = [
+return [
 	{
 		"featureType": "all",
 		"elementType": "geometry",
 		"stylers": [
 			{
-				"color": "#1a4d2e"
+				"color": colorSet.agc
 			}
 		]
 	},
@@ -418,7 +312,7 @@ var myaray = [
 		"elementType": "labels",
 		"stylers": [
 			{
-				"color": "#4acd4c"
+				"color": colorSet.alc
 			},
 			{
 				"gamma": "6.77"
@@ -432,6 +326,9 @@ var myaray = [
 		"featureType": "all",
 		"elementType": "labels.text.fill",
 		"stylers": [
+			{
+				"color": colorSet.alc
+			},
 			{
 				"gamma": "0.00"
 			},
@@ -445,13 +342,16 @@ var myaray = [
 		"elementType": "labels.text.stroke",
 		"stylers": [
 			{
+				"color": colorSet.alc
+			},
+			{
 				"saturation": -31
 			},
 			{
 				"lightness": -33
 			},
 			{
-				"weight": 2
+				"weight": 0.1
 			},
 			{
 				"gamma": 0.8
@@ -487,7 +387,7 @@ var myaray = [
 				"saturation": 30
 			},
 			{
-				"color": "#00ff3e"
+				"color": colorSet.lgc
 			}
 		]
 	},
@@ -499,7 +399,7 @@ var myaray = [
 				"saturation": 20
 			},
 			{
-				"color": "#005727"
+				"color": colorSet.pgc
 			}
 		]
 	},
@@ -514,7 +414,7 @@ var myaray = [
 				"saturation": -20
 			},
 			{
-				"color": "#003f02"
+				"color": colorSet.ppc
 			}
 		]
 	},
@@ -529,7 +429,7 @@ var myaray = [
 				"gamma": "2.08"
 			},
 			{
-				"color": "#005f20"
+				"color": colorSet.rac
 			}
 		]
 	},
@@ -577,7 +477,7 @@ var myaray = [
 				"gamma": "1.22"
 			},
 			{
-				"color": "#000000"
+				"color": colorSet.wac
 			}
 		]
 	},
@@ -601,7 +501,7 @@ var myaray = [
 		"elementType": "labels.text.fill",
 		"stylers": [
 			{
-				"color": "#4acd4c"
+				"color": colorSet.wfc
 			},
 			{
 				"lightness": "28"
@@ -627,3 +527,5 @@ var myaray = [
 		]
 	}
 ];
+
+}
