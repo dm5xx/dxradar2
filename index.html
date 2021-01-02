@@ -1,0 +1,20 @@
+<html>
+    <script language="javascript" src="dms.js"></script>
+	<script language="javascript" src="latlon-spherical.js"></script>
+	<script language="javascript" src="latlonghandler.js"></script>
+    <script >
+        
+        var my = new GHelper(49.1, 10.8, -34.9, 138.6);
+
+        console.log(my.Heading);
+        console.log(my.Distance);
+
+        fetch('http://www.dxsummit.fi/api/v1/spots')
+          .then(response => response.json())
+            .then(data => console.log(data));
+
+    </script>
+    <body>
+huhu
+    </body>
+</html>

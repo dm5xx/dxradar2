@@ -1,0 +1,277 @@
+﻿<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script	src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" language="javascript" src="mustache.js"></script>
+	<script src="jquery.colorbox-min.js"></script>
+
+	<script language="javascript" src="dms.js"></script>
+	<script language="javascript" src="latlon-spherical.js"></script>
+	<script src="./globals.js"></script>
+	<script language="javascript" src="latlonghandler.js"></script>
+	<script type="text/javascript" language="javascript" src="hb.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="colorbox.css">
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">
+	
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCR89yL9RQ2lau62a8oy3ugwo_INgvgCuE">	</script>
+	<script type="text/javascript" language="javascript" src="daynightoverlay.js"></script>
+	<script src="bigmap.js"></script>
+
+	<style>
+	table tbody, table thead
+	{
+		display: block;
+		background-color: black;
+		font: 14px Helvetica,Arial,sans-serif;
+		font-weight: bold;
+	}
+
+	table tbody {
+		overflow: auto;
+		height: 120px;
+		width: 870px;
+		font-size: 11px;
+	}
+	th
+	{
+		width: 870px;
+	}
+	tr
+	{
+		padding: 2px;
+		margin: 2px;
+	}
+	td 
+	{
+		padding: 2px;	
+	}
+	.spc {
+		color: #69ACFD;
+		text-align: right;
+		font-weight: normal;
+	}
+	.qrg {
+		color: #fff;
+		text-align: right
+	}
+	.dxc {
+		color: #f5833c;
+		font-weight: normal;
+	}
+	.tim {
+		color: #36ff36;
+	}
+	.com {
+		color: #999999;
+		font-weight: normal;
+	}
+	.inf {
+		color: #8a007a;
+		font-weight: normal;
+	}
+	.dis {
+		color: #69acfd;
+		font-weight: normal;
+	}
+	.bea {
+		color: #fff;
+	}
+	.lop {
+		color: #66696e;
+		font-weight: normal;
+	}
+
+	html, body, #bigmap-canvas {
+		height: 100%;
+		margin: 0px;
+		padding: 0px
+	}
+
+	#wrapper { position: relative; }
+	#over_map { position: absolute; top: 10px; left: 10px; z-index: 99; }
+	#myClock { position:fixed;bottom:0px;width:100%; z-index: 99; }
+
+	::-webkit-scrollbar { width: 10px; height: 3px;}
+	::-webkit-scrollbar-button {  background-color: #666; }
+	::-webkit-scrollbar-track {  background-color: #999;}
+	::-webkit-scrollbar-track-piece { background-color: #ffffff;}
+	::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 1px;}
+	::-webkit-scrollbar-corner { background-color: #36ff36;}
+	::-webkit-resizer { background-color: #666;}
+
+	.button {
+		padding: 5px 0px;
+		font: 12px bold Tahoma,Geneva,Helvetica Neue,Helvetica,Arial,sans-serif; 
+		display: inline;
+		background: #777 repeat-x bottom;
+		border: none;
+		color: #fff;
+		text-decoration: none;
+		cursor: pointer;
+		font-weight: normal;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+	}
+	.button:hover {
+		background-position: 0 -48px;
+	}
+	.button:active {
+		background-position: 0 top;
+		position: relative;
+		top: 1px;
+		padding: 6px 10px 4px;
+	}
+	.button.red { background-color: #e50000; }
+	.button.purple { background-color: #9400bf; }
+	.button.green { background-color: #58aa00; }
+	.button.orange { background-color: #ff9c00; }
+	.button.blue { background-color: #2c6da0; }
+	.button.black { background-color: #333; }
+	.button.white { background-color: #fff; color: #000; text-shadow: 1px 1px #fff; }
+	.button.small { font-size: 75%; padding: 3px 7px; }
+	.button.small:hover { background-position: 0 -50px; background-color: #800000 }
+	.button.small:active { padding: 4px 7px 2px; background-position: 0 top; }
+	.button.large { font-size: 125%; padding: 7px 12px; }
+	.button.large:hover { background-position: 0 -35px; }
+	.button.large:active { padding: 8px 12px 6px; background-position: 0 top; }
+	
+	
+	/* If you want you can use font-face */
+	@font-face {
+		font-family: 'BebasNeueRegular';
+		src: url('BebasNeue-webfont.eot');
+		src: url('BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('BebasNeue-webfont.woff') format('woff'),
+			 url('BebasNeue-webfont.ttf') format('truetype'),
+			 url('BebasNeue-webfont.svg#BebasNeueRegular') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.clock {
+		width: 500px;
+		margin: 0 auto;
+		padding: 30px;
+		color: #fff;
+	}
+
+	#Date {
+		font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+		font-size: 36px;
+		text-align: center;
+		text-shadow: 0 0 0.1em #69ACFD, 0 0 0.1em #69ACFD, 0 0 0.1em #69ACFD;
+	}
+
+	ul {
+		width: 500px;
+		margin: 0 auto;
+		padding: 0px;
+		list-style: none;
+		text-align: center;
+	}
+
+	ul li {
+		display: inline;
+		font-size: 2em;
+		text-align: center;
+		font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+		text-shadow: 0 0 0.1em #69ACFD, 0 0 0.1em #69ACFD, 0 0 0.1em #69ACFD;
+	}
+
+	#point {
+		position: relative;
+		-moz-animation: mymove 1s ease infinite;
+		-webkit-animation: mymove 1s ease infinite;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	/* Simple Animation */
+	@-webkit-keyframes mymove {
+		0% {opacity: 1.0;
+		text-shadow: 0 0 20px #00c6ff;
+	}
+
+	50% {
+		opacity: 0;
+		text-shadow: none;
+	}
+
+	100% {
+		opacity: 1.0;
+		text-shadow: 0 0 20px #00c6ff;
+	}	
+	}
+
+	@-moz-keyframes mymove {
+		0% {
+			opacity: 1.0;
+			text-shadow: 0 0 20px #00c6ff;
+		}
+
+		50% {
+			opacity: 0;
+			text-shadow: none;
+		}
+
+		100% {
+			opacity: 1.0;
+			text-shadow: 0 0 20px #00c6ff;
+		}
+	}
+	
+	</style>
+</head>
+	<body onload="biginitialize()">
+		<div id="wrapper">
+			<div id="bigmap-canvas"></div>
+			<div id="over_map">
+				<div id="bordermyframe" style="background-color: black;">
+					<div id="myframe" style="padding:0px 5px 5px 0px; margin:0px 0px 5px 0px; background-color: black; border: 2px solid #36ff36">
+						<table id="myTable" border="0" cellspacing="0" cellpadding="0">
+							<thead>
+								<th colspan="10" style="height: 30px; padding:0px 0px 5px 0px;">
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/goes-magnetometer.gif">G_Mag</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/animations/drap_global/latest.png">Abs</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/swx-overview-large.gif">Space</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/goes-electron-flux.gif">eFlux</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/goes-proton-flux.gif">pFlux</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/planetary-k-index.gif">K_Bld</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/solar-cycle-sunspot-number.gif">Spots</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/animations/lasco-c2/latest.jpg">Sun</a>
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/ace-mag-swepam-24-hour.gif">Wind</a>
+									<a class="iframe button small black" href="http://www.irf.se/maggraphs/preliminary_k_index_last_24.png">K-Fin</a>
+									<a class="iframe button small black" href="http://www.solarham.net/latest_imagery/eve.htm">XSun</a>
+
+									<a class="iframe button small black" href="http://services.swpc.noaa.gov/images/animations/ovation-north/latest.png">Aurora</a>
+									<a class="iframe button small black" href="http://www.lutz-schenk.de/sam/sam_data.png">Guden</a>
+									<a class="iframe button small black" href="http://dk0wcy.de/magnetogram/m_current.png">Kiel</a>
+									<a class="iframe button small black iframe" href="http://hirweb.nict.go.jp/sedoss/solact3">ACE</a>
+									<a class="iframe button small black iframe" href="http://www.bandconditions.com/">Band</a>
+									<input type="checkbox" id="cleanUp" value="active" /> cleanUp
+								</th>
+
+							</thead>
+							<tbody id="scroller1"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div id="myClock" class="clock">
+				<div id="Date"></div>
+				<ul>
+					<li id="hours"></li>
+					<li id="point">:</li>
+					<li id="min"></li>
+					<li id="point">:</li>
+					<li id="sec"></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

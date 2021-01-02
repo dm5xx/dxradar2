@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.11.2/themes/ui-darkness/jquery-ui.css">
+	<script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCR89yL9RQ2lau62a8oy3ugwo_INgvgCuE">
+	</script>
+	<script type="text/javascript" language="javascript" src="daynightoverlay.js"></script>
+	<script>
+		
+		function initialize() {
+			var lat1, lng1, lat2, lng2, myLatlng, myLatlng2, mymap;
+			
+			lat1 = 49.356383;
+			lng1 = 11.1605;
+			lat2 = getURLParameter('lat');
+			lng2 = getURLParameter('lon');
+
+			myLatlng = new google.maps.LatLng(lat1, lng1);
+			myLatlng2 = new google.maps.LatLng(lat2, lng2);
+
+			var LatLngList = new Array(myLatlng, myLatlng2);
+
+			var bounds = new google.maps.LatLngBounds();
+			for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+				bounds.extend(LatLngList[i]);
+			}
+
+			var mapOptions = {
+				center: myLatlng,
+				zoom: 8,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				styles: myaray
+			};
+
+			var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+
+			var now = new Date();
+			//var utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+			new DayNightOverlay({
+				map: map,
+				date: now
+			});
+
+			map.fitBounds(bounds);
+
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: 'Hello World!'
+			});
+
+			var marker2 = new google.maps.Marker({
+				position: myLatlng2,
+				map: map,
+				title: 'Hello World!'
+			});
+
+			var pathCoordinates = [
+				myLatlng,
+				myLatlng2
+			];
+			var flightPath = new google.maps.Polyline({
+				path: pathCoordinates,
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+
+			flightPath.setMap(map);
+
+		}
+
+		var myaray = [
+			{
+				"featureType": "all",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"color": "#1a4d2e"
+					}
+				]
+			},
+			{
+				"featureType": "all",
+				"elementType": "labels.text.fill",
+				"stylers": [
+					{
+						"gamma": 0.01
+					},
+					{
+						"lightness": 20
+					}
+				]
+			},
+			{
+				"featureType": "all",
+				"elementType": "labels.text.stroke",
+				"stylers": [
+					{
+						"saturation": -31
+					},
+					{
+						"lightness": -33
+					},
+					{
+						"weight": 2
+					},
+					{
+						"gamma": 0.8
+					}
+				]
+			},
+			{
+				"featureType": "all",
+				"elementType": "labels.icon",
+				"stylers": [
+					{
+						"visibility": "off"
+					}
+				]
+			},
+			{
+				"featureType": "landscape",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"lightness": 30
+					},
+					{
+						"saturation": 30
+					}
+				]
+			},
+			{
+				"featureType": "poi",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"saturation": 20
+					}
+				]
+			},
+			{
+				"featureType": "poi.park",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"lightness": 20
+					},
+					{
+						"saturation": -20
+					}
+				]
+			},
+			{
+				"featureType": "road",
+				"elementType": "all",
+				"stylers": [
+					{
+						"saturation": "70"
+					},
+					{
+						"gamma": "2.08"
+					}
+				]
+			},
+			{
+				"featureType": "road",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"lightness": 10
+					},
+					{
+						"saturation": -30
+					}
+				]
+			},
+			{
+				"featureType": "road",
+				"elementType": "geometry.stroke",
+				"stylers": [
+					{
+						"saturation": 25
+					},
+					{
+						"lightness": 25
+					}
+				]
+			},
+			{
+				"featureType": "transit",
+				"elementType": "all",
+				"stylers": [
+					{
+						"gamma": "1.02"
+					}
+				]
+			},
+			{
+				"featureType": "water",
+				"elementType": "all",
+				"stylers": [
+					{
+						"lightness": "-36"
+					},
+					{
+						"visibility": "on"
+					},
+					{
+						"weight": "2.16"
+					},
+					{
+						"saturation": "11"
+					},
+					{
+						"gamma": "1.22"
+					},
+					{
+						"color": "#0e211c"
+					}
+				]
+			},
+			{
+				"featureType": "water",
+				"elementType": "labels",
+				"stylers": [
+					{
+						"color": "#c2c0c0"
+					},
+					{
+						"weight": "0.01"
+					},
+					{
+						"lightness": "-42"
+					}
+				]
+			},
+			{
+				"featureType": "water",
+				"elementType": "labels.text.fill",
+				"stylers": [
+					{
+						"color": "#ffffff"
+					},
+					{
+						"lightness": "-49"
+					}
+				]
+			},
+			{
+				"featureType": "water",
+				"elementType": "labels.text.stroke",
+				"stylers": [
+					{
+						"weight": "0.13"
+					},
+					{
+						"gamma": "0.94"
+					},
+					{
+						"lightness": "-81"
+					},
+					{
+						"saturation": "19"
+					}
+				]
+			}
+		];
+
+		function getURLParameter(name) {
+			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null
+		}
+
+	</script>
+	<style>
+	html, body, #wrapper{
+	height: 100%;
+	width: 100%;
+}
+#header{
+	height: 100px; 
+	width: 100%;
+}
+#footer{
+	height: 100px;
+	width: 100%;
+}
+#map-canvas{
+	height: 100%;
+	width: 100%;
+}
+	</style>
+</head>
+<body onload="initialize()" style="background-color: yellow;margin:0px">
+	<div id="map-canvas" style="width: 100% !important; height: 100% !important;"></div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<meta charset="utf-8">
+<title>DayNightOverlay Parameter example</title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEYrUppXauR_1yJgJtNqIu-VP8oxYlj-k">
+</script>
+<script type="text/javascript" language="javascript" src="scripts/daynightoverlay.js"></script>
+<script>
+function init() {
+var mapObj = new google.maps.Map(document.getElementById('map'), {
+zoom:1,
+center: new google.maps.LatLng(0,0),
+mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+window.dno = new DayNightOverlay({
+map: mapObj,
+fillColor: 'rgba(200,0,0,0.3)',
+date: new Date(Date.UTC(2011,0,1))
+});
+window.dateField = document.getElementById('date');
+}
+function simulate(from, to, step, time) {
+if (from < to) {
+from.setTime(from.getTime() + step);
+dateField.innerHTML = from.getUTCDate() + '.' +
+(from.getUTCMonth() + 1) + '.' +
+from.getUTCFullYear() + ' - 00:00 UTC';
+dno.setDate(from);
+setTimeout(function() { simulate(from, to, step, time); }, time);
+}
+}
+</script>
+<style>
+pre {
+background-color:#efefef;
+padding:10px;
+border:1px solid #ccc;
+line-height:1.5em;
+width:600px;
+}
+button {
+margin:15px 0 0;
+}
+#dateWrap {
+position:absolute;
+display: block;
+left:400px;
+width:200px;
+text-align:right;
+}
+#date {
+text-align:right;
+font-family:sans-serif;
+font-weight:bold;
+}
+</style>
+</head>
+<body onload="init()">
+<div id="map" style="width:620px; height:500px"></div>
+<div id="dateWrap"><p id="date">01.01.2012 - 00:00 UTC</p></div>
+<button onclick="simulate(new Date(Date.UTC(2012,0,1)), new Date(Date.UTC(2012,11,31)), 86400000, 20)">Simulate a Year</button>
+<pre>
+var mapObj = new google.maps.Map(document.getElementById('map'), {
+zoom:1,
+center: new google.maps.LatLng(0,0),
+mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+new DayNightOverlay({
+map: mapObj,
+fillColor: 'rgba(200,0,0,0.3)',
+date: new Date(Date.UTC(2012,0,1))
+});
+</pre>
+</body>
+</html>
