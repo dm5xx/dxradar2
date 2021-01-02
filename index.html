@@ -8,6 +8,7 @@
 
         console.log(my.Heading);
         console.log(my.Distance);
+        console.log(GHelper.GetLocatorByLatLong(49.347, 11.144));
 
         fetch('http://www.dxsummit.fi/api/v1/spots')
           .then(response => response.json())

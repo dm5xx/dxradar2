@@ -1,5 +1,3 @@
-//import LatLong from 'https://cdn.jsdelivr.net/npm/geodesy@2/latlon-spherical.min.js';
-
 class GHelper {
     // from source lat lon to target lat lon
     constructor(lat1,lon1,lat2,lon2, locator){        
@@ -8,7 +6,7 @@ class GHelper {
         if(locator == null || typeof(locator) == 'undefined')
         {
             this.P1 = new LatLonSpherical(lat1, lon1);
-            // todo create maidenhead out of locator;
+            this.Locator = GHelper.GetLocatorByLatLong(lat1, lon1);            
         }
         else
         {
@@ -36,6 +34,30 @@ class GHelper {
         let longitude =  (parseFloat(e0) + parseFloat(e2) + parseFloat(e4)) -180;
 
         return new LatLonSpherical(latitude, longitude);
+    };
+
+    static GetLocatorByLatLong(lat, lon)
+    {    
+        lat = 90 + lat;
+        lon = 180 + lon;
+    
+        let latFields = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(Math.floor(lat / 10));
+        let lonFields = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(Math.floor(lon / 20));
+
+        let remLat = lat % 10;                                        
+        let remLon = lon % 20;                                        
+        
+        let latSub = '0123456789'.charAt(Math.floor(remLat / 1));
+        let lonSub = '0123456789'.charAt(Math.floor(remLon / 2));
+    
+        remLat = remLat % 1;                                        
+        remLon = remLon % 2;                                        
+        
+        let latSubFields = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(Math.floor(remLat / 0.0416666666667));
+        let lonSubFields = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.charAt(Math.floor(remLon / 0.0833333333334));
+        
+        return lonFields + latFields + lonSub + latSub + lonSubFields + latSubFields;
+        ;
     };
 
     roundTo(val, decimals) {
