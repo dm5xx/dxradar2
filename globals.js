@@ -40,3 +40,19 @@ var colorSet = {};
 // "road_all_color": "#005f20",
 // "water_all_color": "#000000",
 // "water_fill_color": "#4acd4c"
+
+var switchSet = {
+    "IP" : "192.168.97.209",
+    "Port": "59",
+    "B160" : { "Bank" : 0, "Pin" : 0},
+    "B80" : { "Bank" : 0, "Pin" : 1},
+    "B60" : { "Bank" : 0, "Pin" : 2},
+    "B40" : { "Bank" : 0, "Pin" : 3},
+    "B30" : { "Bank" : 0, "Pin" : 4},
+    "B20" : { "Bank" : 0, "Pin" : 5},
+    "B17" : { "Bank" : 0, "Pin" : 6},
+    "B15" : { "Bank" : 0, "Pin" : 7},
+    "B12" : { "Bank" : 0, "Pin" : 8},
+    "B10" : { "Bank" : 0, "Pin" : 9},
+    "B6" : { "Bank" : 0, "Pin" : 10},
+}
