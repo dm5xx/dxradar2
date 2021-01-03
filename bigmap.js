@@ -214,7 +214,7 @@ function addPath(callInfo) {
 
 function getPinName(qrg) {
 
-	var wert = parseInt(qrg);
+	var wert = parseFloat(qrg);
 	if (wert > 1000 && wert < 2000)
 		return "160";
 	if (wert > 3000 && wert < 4000)

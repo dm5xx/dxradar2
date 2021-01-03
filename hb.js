@@ -12,6 +12,9 @@ $(document).ready(function () {
 	else
 		isCleanup = true;
 
+	// todo: get switchSet somehow...
+	
+
 	$('#bordermyframe').draggable({
 		handle: 'thead'
 	});
@@ -28,15 +31,20 @@ $(document).ready(function () {
 
 	var heightBodyFrame = $("#bordermyframe").height();
 
-	$("#bordermyframe").mouseover(function () {
-		$("#scroller1").height("500");
-		$("#bordermyframe").height(heightBodyFrame + 390 - 13);
+	$("#bordermyframe").dblclick(function () {
+		if(!isExpanded)
+		{
+			$("#scroller1").height("500");
+			$("#bordermyframe").height(heightBodyFrame + 390 - 13);
+			isExpanded = true;
+		}
+		else
+		{
+			$("#scroller1").height("110");
+			$("#bordermyframe").height(heightBodyFrame-13);	
+			isExpanded = false;
+		}
 	});
-	$("#bordermyframe").mouseout(function () {
-		$("#scroller1").height("110");
-		$("#bordermyframe").height(heightBodyFrame-13);
-	});
-
 
 	// Create two variable with the names of the months and days in an array
 	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -73,7 +81,20 @@ $(document).ready(function () {
 
 });
 
+var slowDownCounter = 0;
 var updateDxSpots = function updateDxSpots(lastCallingId, callback) {
+	if(isExpanded)
+	{
+		if(slowDownCounter == 0)
+		{
+			console.log("SpotPanel is expanded - slow down requesting!");
+			slowDownCounter++;
+			return;
+		}
+		else
+			slowDownCounter = 0;
+	}
+
 	var jsonMyUrl = 'http://www.dxsummit.fi/api/v1/spots';
 	getAllContent(jsonMyUrl, callback);
 };
@@ -157,14 +178,16 @@ var jsonObjectCollector = function jsonObjectCollector() {
 }
 
 var renderMyRows = function renderMyRows(myJsonData) {
-		row = Mustache.to_html(templating, myJsonData);
+		updateSwitchControl(myJsonData);
+		row = Mustache.to_html(getTemplateString(), myJsonData);
 		$('#myTable').append(row);
 		$(".ajax").colorbox({ width: "600px", height: "400px", iframe: true });
 }
 
 
 var appendNewRow = function appendNewRow(myJsonData) {
-	row = Mustache.to_html(templating, myJsonData);
+	updateSwitchControl(myJsonData);
+	row = Mustache.to_html(getTemplateString(), myJsonData);
 	var newRow = $(row);
 	newRow.hide();
 	$('#myTable > tbody > tr:first').before(newRow);
@@ -223,4 +246,17 @@ $.fn.glowEffect = function (start, end, duration, myfunction) {
 
 function getURLParameter(name) {
 	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+}
+
+function getTemplateString()
+{
+	let keys = Object.keys(templateDef);
+
+	let result = "";
+	for(let a = 0; a < keys.length; a++)
+	{
+		result+= templateDef[keys[a]];
+	}
+
+	return result;
 }
